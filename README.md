@@ -1,137 +1,69 @@
-# Smart Bookmark App 🚀
+# 🔖 Smart Bookmark App
 
-A secure, real-time bookmark manager built using modern full-stack technologies. Users can log in with Google, save private bookmarks, and see updates instantly across multiple tabs.
+A production-ready full-stack bookmark manager built using Next.js (App Router), Supabase, and Tailwind CSS.
 
-This project demonstrates authentication, database security, realtime systems, and modern UI using Next.js and Supabase.
-
----
-
-# 🌐 Live Demo
-
-(Add after deployment)
-
+🌐 Live Demo: https://smart-bookmark-app-five-eosin.vercel.app  
+📂 GitHub Repo: https://github.com/shukla-n/smart-bookmark-app
 
 ---
 
-# ✨ Features
+## 🚀 Features
 
-- Google OAuth authentication
-- Add bookmarks (title and URL)
-- Delete bookmarks
-- Private bookmarks per user
-- Real-time updates across tabs
-- Secure database using Row Level Security (RLS)
-- Responsive modern UI using Tailwind CSS
-- Built with Next.js App Router and TypeScript
-
----
-
-# 🛠 Tech Stack
-
-- Frontend: Next.js 16 (App Router, TypeScript)
-- Backend: Supabase (Auth, Database, Realtime)
-- Styling: Tailwind CSS v4
-- Deployment: Vercel
-- Authentication: Google OAuth
+- 🔐 Google OAuth Authentication (Supabase Auth)
+- 🔒 Row Level Security (RLS) for per-user data isolation
+- ➕ Add bookmarks (Title + URL)
+- ❌ Delete bookmarks
+- ⚡ Real-time updates across multiple tabs
+- 🎨 Modern UI built with Tailwind CSS
+- ☁️ Deployed on Vercel
 
 ---
 
+## 🛠️ Tech Stack
+
+- Next.js (App Router)
+- Supabase (Auth + PostgreSQL + Realtime)
+- Tailwind CSS
+- Vercel (Deployment)
 
 ---
 
-# 🔐 Authentication Flow
+## 🔐 Authentication & Security
 
-1. User clicks "Login with Google"
-2. Supabase handles Google OAuth authentication
-3. Session is stored securely
-4. User can access only their own bookmarks
+- Google OAuth only (no email/password login)
+- Supabase manages secure session handling
+- Row Level Security (RLS) policies ensure:
+  - Users can only insert their own bookmarks
+  - Users can only view their own bookmarks
+  - Users can only delete their own bookmarks
 
----
-
-# 🗄 Database Schema
-
-Table: bookmarks
-
-Columns:
-
-id uuid (Primary Key)
-title text
-url text
-user_id uuid
-created_at timestamp
-
-This prevents unauthorized access.
+Each bookmark is securely tied to the authenticated user ID.
 
 ---
 
-# ⚡ Realtime Functionality
+## ⚡ Real-Time Implementation
 
-Supabase Realtime listens for database changes:
+Supabase Realtime subscriptions are used to listen for INSERT and DELETE events on the bookmarks table.
 
-- INSERT
-- DELETE
-
-Bookmarks update instantly across tabs without refresh.
-
----
-## ⚠️ Hard Problems Faced & Solutions
-
-### 1. Google OAuth Authentication Not Working
-
-**Problem:**  
-Login failed initially when trying to authenticate using Google OAuth.
-
-**Cause:**  
-OAuth credentials were not configured correctly between Google Cloud and Supabase.
-
-**Solution:**  
-- Created OAuth credentials in Google Cloud Console  
-- Added the correct Redirect URL in Supabase Authentication settings  
-- Added Google Client ID and Client Secret in Supabase  
-- Enabled Google provider in Supabase Auth settings  
-
-**Result:**  
-Google OAuth login started working successfully.
+If a user opens two tabs:
+- Adding a bookmark in one tab updates the other instantly.
+- No manual refresh required.
 
 ---
 
-### 2. Realtime Updates Not Working
+## 🧠 Challenges Faced
 
-**Problem:**  
-Changes made in one browser tab did not appear in another tab in realtime.
-
-**Cause:**  
-Supabase Realtime was not enabled and subscription was not configured in frontend.
-
-**Solution:**  
-- Enabled Realtime replication for required tables in Supabase  
-- Configured realtime subscription in Next.js frontend using Supabase client  
-- Verified channel subscription and event listening  
-
-**Result:**  
-Realtime updates started syncing instantly across tabs.
-
+- Configuring Google OAuth redirect URLs for both localhost and production.
+- Correctly setting up Row Level Security policies.
+- Handling real-time subscriptions without memory leaks.
+- Debugging Tailwind CSS v4 configuration.
 
 ---
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
-
-First, run the development server:
+## 🏗️ Local Development
 
 ```bash
+git clone https://github.com/shukla-n/smart-bookmark-app
+cd smart-bookmark-app
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
